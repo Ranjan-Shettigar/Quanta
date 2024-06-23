@@ -4,8 +4,7 @@ from config import GEMINI_API_KEY
 
 app = Flask(__name__)
 
-# Configure Gemini API using environment variable
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+# Configure Gemini API
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Create the model
