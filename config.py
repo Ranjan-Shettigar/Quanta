@@ -1,1 +1,4 @@
-GEMINI_API_KEY = GEMINI_API
+import os
+
+# Fetch the GEMINI_API key from the environment variables
+gemini_api_key = os.getenv('GEMINI_API')
