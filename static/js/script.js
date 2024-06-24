@@ -124,3 +124,22 @@ startNewChat();
 if (localStorage.getItem('darkMode') === 'true') {
     document.body.classList.add('dark-mode');
 }
+
+// About modal functionality
+const aboutBtn = document.getElementById('aboutBtn');
+const aboutModal = document.getElementById('aboutModal');
+const closeBtn = aboutModal.querySelector('.close');
+
+aboutBtn.onclick = function() {
+    aboutModal.style.display = "block";
+}
+
+closeBtn.onclick = function() {
+    aboutModal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == aboutModal) {
+        aboutModal.style.display = "none";
+    }
+}
