@@ -12,7 +12,7 @@ Quanta leverages Google's GenerativeAI for advanced natural language processing 
 ### Setup and Configuration
 
 1. **Configure Gemini API**:
-   - Obtain your Gemini API key from [Google GenerativeAI](https://generativeai.dev/).
+   - Obtain your Gemini API key from [Google GenerativeAI](https://ai.google.dev/).
    - Update `config.py` with your `GEMINI_API_KEY`.
 
 2. **Install Dependencies**:
@@ -34,7 +34,7 @@ Quanta leverages Google's GenerativeAI for advanced natural language processing 
   ```
 
 - Configure Gemini API:
-  - Obtain your API key from [Google GenerativeAI](https://generativeai.dev/).
+  - Obtain your API key from [Google GenerativeAI](https://ai.google.dev/).
   - Update `config.py` with your `GEMINI_API_KEY`.
 
 - Install dependencies:
