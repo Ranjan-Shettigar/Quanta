@@ -1,7 +1,7 @@
-FROM python:3.10-slim
+FROM python:3.10-alpine
 
 # Install git
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache git
 
 # Clone the repo
 RUN git clone https://github.com/Ranjan-Shettigar/Quanta.git /app
