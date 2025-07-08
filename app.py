@@ -1,28 +1,16 @@
-import google.generativeai as genai
+import os
 from flask import Flask, render_template, request, jsonify
-from config import GEMINI_API_KEY
+from google import genai
+from google.genai import types
 
 app = Flask(__name__)
 
-# Configure Gemini API
-genai.configure(api_key=GEMINI_API_KEY)
-
-# Create the model
-generation_config = {
-    "temperature": 1,
-    "top_p": 0.95,
-    "top_k": 64,
-    "max_output_tokens": 8192,
-    "response_mime_type": "text/plain",
-}
-
-model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash",
-    generation_config=generation_config,
+# Initialize Gemini client
+client = genai.Client(
+    api_key=os.environ.get("GEMINI_API_KEY"),
 )
 
-# Initialize chat session
-chat_session = model.start_chat(history=[])
+MODEL_NAME = "gemini-2.5-flash"
 
 @app.route('/')
 def home():
@@ -31,10 +19,34 @@ def home():
 @app.route('/chat', methods=['POST'])
 def chat():
     user_message = request.json['message']
-    response = chat_session.send_message(user_message)
-    return jsonify({'response': response.text})
+
+    # Build conversation history (simple: just last user message)
+    contents = [
+        types.Content(
+            role="user",
+            parts=[types.Part.from_text(text=user_message)],
+        ),
+    ]
+    generate_content_config = types.GenerateContentConfig(
+        thinking_config=types.ThinkingConfig(
+            thinking_budget=0,
+        ),
+        response_mime_type="text/plain",
+    )
+
+    # Get response from Gemini
+    response_text = ""
+    for chunk in client.models.generate_content_stream(
+        model=MODEL_NAME,
+        contents=contents,
+        config=generate_content_config,
+    ):
+        if hasattr(chunk, "text"):
+            response_text += chunk.text
+
+    return jsonify({'response': response_text})
 
 # if __name__ == '__main__':
 #     app.run(debug=True)
 if __name__ == '__main__':
-    app.run(debug=False,host='0.0.0.0')
+    app.run(debug=False, host='0.0.0.0')
